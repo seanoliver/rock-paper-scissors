@@ -20,7 +20,7 @@ function playRound(playerSelection, computerSelection) {
         resultObject.outcome = 'tie';
     }
 
-    const outcomeMessages = {
+    const outcomeMessage = {
         'rockScissors' : 'Rock crushes scissors',
         'scissorsPaper' : 'Scissors cut paper',
         'paperRock' : 'Paper covers rock'
@@ -28,30 +28,30 @@ function playRound(playerSelection, computerSelection) {
 
     if (playerSelection === "rock") {
         if (computerSelection === "scissors") {
-            resultObject.message = `${rockScissors}`;
+            resultObject.message = `You threw rock!\nThe computer threw scissors!\n${outcomeMessage.rockScissors}`;
             resultObject.outcome = 'win';
-        } else {
-            resultObject.message = `${paperRock}`;
+        } else if (computerSelection === "paper")  {
+            resultObject.message = `You threw rock!\nThe computer threw paper!\n${outcomeMessage.paperRock}`;
             resultObject.outcome = 'lose';
         }
     }
 
     if (playerSelection === "scissors") {
         if (computerSelection === "paper") {
-            resultObject.message = `${scissorsPaper}`;
+            resultObject.message = `You threw scissors!\nThe computer threw paper!\n${outcomeMessage.scissorsPaper}`;
             resultObject.outcome = 'win';
-        } else {
-            resultObject.message = `${rockScissors}`;
+        } else if (computerSelection === "rock") {
+            resultObject.message = `You threw scissors!\nThe computer threw rock!\n${outcomeMessage.rockScissors}`;
             resultObject.outcome = 'lose';
         }
     }
 
     if (playerSelection === "paper") {
         if (computerSelection === "rock") {
-            resultObject.message = `${paperRock}`;
+            resultObject.message = `You threw paper!\nThe computer threw rock!\n${outcomeMessage.paperRock}`;
             resultObject.outcome = 'win';
-        } else {
-            resultObject.message = `${scissorsPaper}`;
+        } else if (computerSelection === "scissors") {
+            resultObject.message = `You threw paper!\nThe computer threw scissors!\n${outcomeMessage.scissorsPaper}`;
             resultObject.outcome = 'lose';
         }
     }
@@ -69,8 +69,7 @@ function game(rounds) {
     let roundsPlayed = 0;
 
     while (playerScore + computerScore < rounds) {
-        roundsPlayed++;
-        console.log(`Round ${roundsPlayed}`, `You: ${playerScore}`, `Computer: ${computerScore}`);
+        roundsPlayed++; 
 
         const playerSelection = prompt('Pick your poison (rock, paper, or scissors).');
         const computerSelection = getComputerChoice();
@@ -84,19 +83,15 @@ function game(rounds) {
             computerScore++;
         } else {
             outcomeMessage = `${result.message}!`
-            
         }
+        console.log(`Round ${roundsPlayed}`, `You: ${playerScore}`, `Computer: ${computerScore}`);
+        alert(result.message);
+        alert(`==Current Score==\nYou: ${playerScore}; Computer: ${computerScore}.`);
     }
 
-    if (playerScore > computerScore) {
-        return `You: ${playerScore}; Computer: ${computerScore}. You won!`
-    } else {
-        return `You: ${playerScore}; Computer: ${computerScore}. You lost.`
-    }
 
 }
 
 console.log(game(5));
-
-console.log(playRound(playerSelection, computerSelection));
+// console.log(playRound(playerSelection, computerSelection));
 // console.log(getComputerChoice());

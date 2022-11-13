@@ -16,7 +16,7 @@ function playRound(playerSelection, computerSelection) {
     const resultObject = {};
 
     if (playerSelection === computerSelection) {
-        resultObject.message = `It's a tie`;
+        resultObject.message = `You threw ${playerSelection}!\nThe computer threw ${computerSelection}!\nIt's a tie`;
         resultObject.outcome = 'tie';
     }
 
@@ -61,14 +61,15 @@ function playRound(playerSelection, computerSelection) {
 
 // {f} play a series of rounds and keep track of score
 function game(rounds) {
-    if (rounds % 2 === 0 || rounds < 0) return "Rounds must be a positive, odd number.";
+    rounds = validateInput(rounds);
 
     let playerScore = 0;
     let computerScore = 0;
     let outcomeMessage = '';
     let roundsPlayed = 0;
 
-    while (playerScore + computerScore < rounds) {
+    // Continue rounds until one player has more than 50% of options
+    while (Math.max(playerScore, computerScore) < Math.ceil(rounds/2)) {
         roundsPlayed++; 
 
         const playerSelection = prompt('Pick your poison (rock, paper, or scissors).');
@@ -89,9 +90,32 @@ function game(rounds) {
         alert(`==Current Score==\nYou: ${playerScore}; Computer: ${computerScore}.`);
     }
 
+if (playerScore > computerScore) {
+    alert(`=🎉= YOU WIN =🎉=\nYou: ${playerScore}; Computer: ${computerScore}.`);
+} else {
+    alert(`=😭= YOU LOSE =😭=\nYou: ${playerScore}; Computer: ${computerScore}.`);
+}
 
 }
 
-console.log(game(5));
+let numRounds = 3;
+
+prompt('How many rounds? (Default = 3)', numRounds);
+
+// {f} confirm # of rounds is even and positive
+function validateInput(input) {
+    if ((input > 0) && (input % 2 > 0)) return input;
+    
+    let message = '';
+    if (input < 0) message = "You entered a negative number."
+    else if (input % 2 === 0) message = "You entered an even number."
+
+    if (message) {
+        prompt(`${message}\nPlease enter a positive, odd integer:`, input);
+    }
+    return validateInput(input);
+}
+
+console.log(game(numRounds));
 // console.log(playRound(playerSelection, computerSelection));
 // console.log(getComputerChoice());
